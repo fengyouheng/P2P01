@@ -28,7 +28,6 @@
                         $("#searchForm").submit();
                     }
                 });
-
 			});
 		</script>
 	</head>

@@ -1,21 +1,21 @@
-package cn.wolfcode.p2p.website;
+package cn.wolfcode.p2p.website.controller;
 
+import cn.wolfcode.p2p.base.domain.Logininfo;
+import cn.wolfcode.p2p.base.service.ILogininfoService;
+import cn.wolfcode.p2p.base.util.AjaxResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import cn.wolfcode.p2p.base.domain.Logininfo;
-import cn.wolfcode.p2p.base.service.ILogininfoService;
-import cn.wolfcode.p2p.base.util.AjaxResult;
-
+/**
+ * Created by seemygo on 2018/1/17.
+ */
 @Controller
 public class RegisterController {
-
-	@Autowired
-	private ILogininfoService logininfoService;
-	
-	@RequestMapping("/userRegister")
+    @Autowired
+    private ILogininfoService logininfoService;
+    @RequestMapping("/userRegister")
     @ResponseBody
     public AjaxResult userRegister(String username, String password){
         AjaxResult result = null;
@@ -28,18 +28,16 @@ public class RegisterController {
         }
         return result;
     }
-	
-	@RequestMapping("/checkUsername")
+    @RequestMapping("/checkUsername")
     @ResponseBody
     public boolean checkUsername(String username){
         return logininfoService.checkUsername(username);
     }
-	
-	@RequestMapping("/userLogin")
+    @RequestMapping("/userLogin")
     @ResponseBody
     public AjaxResult userLogin(String username,String password){
         AjaxResult result = null;
-        Logininfo logininfo = logininfoService.login(username,password);
+        Logininfo logininfo = logininfoService.login(username,password,Logininfo.USERTYPE_USER);
         if(logininfo!=null){
             result = new AjaxResult("登录成功");
         }else{
