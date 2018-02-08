@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.wolfcode.p2p.base.mapper.VedioAuthMapper" >
+  <resultMap id="BaseResultMap" type="cn.wolfcode.p2p.base.domain.VedioAuth" >
+    <id column="id" property="id" />
+    <result column="state" property="state" />
+    <result column="remark" property="remark" />
+    <result column="auditTime" property="auditTime" />
+    <result column="applyTime" property="applyTime" />
+    <association property="applier" javaType="cn.wolfcode.p2p.base.domain.Logininfo" columnPrefix="ap_">
+      <id column="id" property="id"/>
+      <result column="username" property="username"/>
+    </association>
+    <association property="auditor" javaType="cn.wolfcode.p2p.base.domain.Logininfo" columnPrefix="au_">
+      <id column="id" property="id"/>
+      <result column="username" property="username"/>
+    </association>
+  </resultMap>
+  <insert id="insert" parameterType="cn.wolfcode.p2p.base.domain.VedioAuth" useGeneratedKeys="true" keyProperty="id" >
+    insert into `vedioauth` (state, remark, auditTime, applyTime, auditor_id, applier_id
+      )
+    values (#{state}, #{remark}, #{auditTime}, #{applyTime}, #{auditor.id}, #{applier.id}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.wolfcode.p2p.base.domain.VedioAuth" >
+    update `vedioauth`
+    set state = #{state},
+      remark = #{remark},
+      auditTime = #{auditTime},
+      applyTime = #{applyTime},
+      auditor_id = #{auditor.id},
+      applier_id = #{applier.id}
+    where id = #{id}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select va.id, va.state, va.remark, va.auditTime, va.applyTime, va.auditor_id, va.applier_id,
+    ap.id as ap_id,ap.username as ap_username,
+    au.id as au_id,au.username as au_username
+    from `vedioauth`va
+    join logininfo ap on(va.applier_id=ap.id)
+    left join logininfo au on(va.auditor_id=au.id)
+    where va.id = #{id}
+  </select>
+  <sql id="base_where">
+  	<where></where>
+  </sql>
+  <select id="queryPage" resultMap="BaseResultMap">
+  	select va.id, va.state, va.remark, va.auditTime, va.applyTime, va.auditor_id, va.applier_id,
+    ap.id as ap_id,ap.username as ap_username,
+    au.id as au_id,au.username as au_username
+    from `vedioauth`va
+    join logininfo ap on(va.applier_id=ap.id)
+    left join logininfo au on(va.auditor_id=au.id)
+	<include refid="base_where"></include>
+  </select>
+</mapper>

@@ -6,18 +6,22 @@
     <result column="username" property="username" />
     <result column="password" property="password" />
     <result column="state" property="state" />
+    <result column="userType" property="userType" />
   </resultMap>
-
   <insert id="insert" parameterType="cn.wolfcode.p2p.base.domain.Logininfo" useGeneratedKeys="true" keyProperty="id" >
-    insert into `logininfo` (username, password, state)
-    values (#{username}, #{password}, #{state})
+    insert into `logininfo` (username, password, state,userType)
+    values (#{username}, #{password}, #{state},#{userType})
   </insert>
-	
   <select id="selectCountByUsername" resultType="int">
-  	select count(id)from logininfo where username = #{username}
+    select count(id) from logininfo where username = #{username}
   </select>
-  
   <select id="login" resultMap="BaseResultMap">
-  	select id,username,password,state from logininfo where username = #{username} and password = #{password}
+    select id,username, password, state from logininfo where username = #{username} and password = #{password} and userType = #{userType}
+  </select>
+  <select id="queryCountByUserType" resultType="java.lang.Integer">
+    select count(id) from logininfo where userType = #{userType}
+  </select>
+  <select id="autocomplate" resultType="java.util.Map">
+  	 select id,username from logininfo where username like concat(#{keyword},'%') and userType = #{userType}
   </select>
 </mapper>

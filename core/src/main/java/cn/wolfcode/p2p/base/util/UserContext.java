@@ -1,6 +1,7 @@
 package cn.wolfcode.p2p.base.util;
 
 import cn.wolfcode.p2p.base.domain.Logininfo;
+import cn.wolfcode.p2p.base.vo.VerifyCodeVo;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -31,11 +32,11 @@ public class UserContext {
     public static String getIp() {
         return getRequest().getRemoteAddr();
     }
-/*
+
     public static void setVerifyCodeVo(VerifyCodeVo verifyCodeVo) {
         getRequest().getSession().setAttribute(VERIFYCODE_IN_SESSION,verifyCodeVo);
     }
     public static VerifyCodeVo getVerifyCodeVo(){
         return (VerifyCodeVo) getRequest().getSession().getAttribute(VERIFYCODE_IN_SESSION);
-    }*/
+    }
 }
